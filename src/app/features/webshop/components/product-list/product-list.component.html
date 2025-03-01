@@ -1,0 +1,23 @@
+@let products = dataSource$ | async;
+<section class="p-4">
+  <div class="flex flex-col sm:flex-row items-center gap-2 w-full max-w-2xl mx-auto">
+    <label for="search" class="sr-only">Search for products</label>
+    <input 
+      type="text"
+      id="search"
+      class="w-full sm:w-80 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      [formControl]="searchControl"
+      placeholder="Search products..."
+      aria-label="Search for products"
+    />
+  </div>
+</section>
+@if (products) {
+  <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-fr">
+    @for (product of products; track product.id) {
+      <li class="h-full w-full">
+        <app-product-card [product]="product" />
+      </li>
+    }
+  </ul>
+}
