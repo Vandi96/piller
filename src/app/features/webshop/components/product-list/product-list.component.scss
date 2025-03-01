@@ -1,0 +1,9 @@
+.list-mode {
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 1rem;
+
+  &:first-child {
+    border-top: 1px solid #d1d5db;
+    padding-top: 1rem;
+  }
+}

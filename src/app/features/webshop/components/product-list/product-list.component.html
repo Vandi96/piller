@@ -1,4 +1,4 @@
-@let products = dataSource$ | async;
+@let res = dataSource$ | async;
 <section class="p-4">
   <div class="flex flex-col sm:flex-row items-center gap-2 w-full max-w-2xl mx-auto">
     <label for="search" class="sr-only">Search for products</label>
@@ -10,14 +10,44 @@
       placeholder="Search products..."
       aria-label="Search for products"
     />
+    <button type="menu" mat-flat-button [matMenuTriggerFor]="sortMenu">Sort: {{ order().label }}</button>
+    <mat-menu #sortMenu="matMenu">
+      @for (data of sortData; track data.id) {
+        <button type="button" mat-menu-item (click)="sortList(data)">{{ data.label }}</button>
+      }
+    </mat-menu>
+    <button type="menu" mat-icon-button [matMenuTriggerFor]="viewMenu">
+      @if (gridMode()) {
+        <mat-icon aria-hidden="false" fontIcon="grid_view" />
+      } @else {
+        <mat-icon aria-hidden="false" fontIcon="format_list_bulleted" />
+      }
+    </button>
+    <mat-menu #viewMenu="matMenu">
+        <button type="button" mat-menu-item (click)="setView(viewMode.LIST)">
+          <mat-icon aria-hidden="false" fontIcon="format_list_bulleted" />
+          <span>List view</span>
+        </button>
+        <button type="button" mat-menu-item (click)="setView(viewMode.GRID)">
+          <mat-icon aria-hidden="false" fontIcon="grid_view" />
+          <span>Grid view</span>
+        </button>
+    </mat-menu>
   </div>
 </section>
-@if (products) {
-  <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-fr">
-    @for (product of products; track product.id) {
-      <li class="h-full w-full">
-        <app-product-card [product]="product" />
+@if (res && res.products) {
+  <ul [ngClass]="{ 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': gridMode(), 'space-y-4': !gridMode() }">
+    @for (product of res.products; track product.id) {
+      <li class="h-full w-full" [ngClass]="{'border-gray-300 list-mode': !gridMode()}">
+        <app-product-card [product]="product" [gridMode]="gridMode()" />
       </li>
     }
   </ul>
+  <mat-paginator
+    (page)="pagination($event)"
+    [length]="res.total"
+    [pageSize]="25"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page">
+  </mat-paginator>
 }

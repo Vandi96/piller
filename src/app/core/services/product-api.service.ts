@@ -24,7 +24,6 @@ export class ProductApiService {
       .set('sortBy', sortBy)
       .set('order', order);
 
-    // Ha van keresési kulcsszó, akkor a keresési végpontot használjuk
     if (search.trim().length > 0) {
       url += `/search?q=${search}`;
     }
