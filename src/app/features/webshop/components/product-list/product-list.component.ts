@@ -51,11 +51,7 @@ export class ProductListComponent implements OnInit {
       this.paginatorSource$
     ]).pipe(
       switchMap(([searchValue, order, pagination]) => {
-        return this._api.getProducts$(searchValue, pagination.limit, pagination.skip, order.sortBy, order.order).pipe(
-          map((res: ProductResponse) => {
-            return res;
-          })
-        );
+        return this._api.getProducts$(searchValue, pagination.limit, pagination.skip, order.sortBy, order.order);
       })
     )
   }

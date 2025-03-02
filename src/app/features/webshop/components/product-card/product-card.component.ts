@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Product } from '@core/interface/product.interface';
 import { MatButtonModule } from '@angular/material/button';
+import { CartService } from '../../services/cart.service';
+import { I } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-product-card',
@@ -12,6 +14,11 @@ import { MatButtonModule } from '@angular/material/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardComponent {
+  private _cartService = inject(CartService);
   public product = input.required<Product>();
   public gridMode = input.required<boolean>();
+
+  public addProductToCart(item: Product): void {
+    this._cartService.addToCart(item);
+  }
 }

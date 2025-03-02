@@ -44,6 +44,11 @@ export interface Product {
   images: string[];
 }
 
+export interface ProductWithQuantity {
+  product: Product;
+  quantity: number;
+}
+
 export interface ProductResponse {
   products: Product[];
   total: number;

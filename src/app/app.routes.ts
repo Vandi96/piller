@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { canActivateIfCartNotEmptyGuard } from './features/webshop/guards/can-activate-if-cart-not-empty.guard';
 
 export const routes: Routes = [
   { 
@@ -16,7 +17,8 @@ export const routes: Routes = [
       },
       { 
         path: 'checkout', 
-        loadComponent: () => import('./features/webshop/components/checkout/checkout.component').then(m => m.CheckoutComponent) 
+        loadComponent: () => import('./features/webshop/components/checkout/checkout.component').then(m => m.CheckoutComponent), 
+        canActivate: [canActivateIfCartNotEmptyGuard]
       }
     ],
   },

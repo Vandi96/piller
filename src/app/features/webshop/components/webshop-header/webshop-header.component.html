@@ -2,7 +2,7 @@
   <button type="button" mat-icon-button>
     <mat-icon aria-hidden="false" fontIcon="menu" />
   </button>
-  <button type="button" mat-icon-button>
-    <mat-icon aria-hidden="false" matBadge="15" fontIcon="shopping_cart" />
-  </button>
+  <a mat-icon-button routerLink="/webshop/checkout">
+    <mat-icon aria-hidden="false" [matBadge]="cartLength" [matBadgeHidden]="cartIsEmpty()" fontIcon="shopping_cart" />
+  </a>
 </div>
