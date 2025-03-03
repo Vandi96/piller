@@ -51,6 +51,8 @@ export class CheckoutComponent implements OnInit {
     effect(() => {
       if (this.isCartEmpty()) {
         this.checkoutForm.disable();
+        this._router.navigate(['/webshop'])
+        this._snackBar.open('Your cart is empty. Browse our products and fill it up!', 'Close', { duration: 3000 });
       }
     });
   }
@@ -70,7 +72,6 @@ export class CheckoutComponent implements OnInit {
       differentShipping: [false],
       shippingAddress: [''],
     });
-    this.checkoutForm.enable();
 
     this.checkoutForm.get('differentShipping')?.valueChanges.pipe(
       takeUntilDestroyed(this._destroyRef),

@@ -44,8 +44,8 @@ export class ProductListComponent implements OnInit {
       this.searchControl.valueChanges.pipe(
         startWith(''),
         debounceTime(250),
-        distinctUntilChanged(),
         map((query) => query!.trim()),
+        distinctUntilChanged(),
         filter(query => query.length >= 3 || query.length === 0)
       ),
       this.order$,
