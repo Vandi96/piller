@@ -1,0 +1,18 @@
+<div class="p-4">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold">Navigation</h2>
+    <button type="button" mat-icon-button aria-label="Close sidenav" (click)="close()">
+      <mat-icon aria-hidden="true" fontIcon="close" />
+    </button>
+  </div>
+  <nav class="flex flex-col space-y-2">
+    <a mat-button (click)="navigate('webshop')" class="flex items-center p-2" aria-label="Navigate to webshop page">
+      <mat-icon class="mr-2" fontIcon="shopping_cart" aria-hidden="true" />
+      Webshop
+    </a>
+    <a mat-button (click)="navigate('weather-forecast')" class="flex items-center p-2" aria-label="Navigate to weather forecast page">
+      <mat-icon class="mr-2" fontIcon="cloud" aria-hidden="true"/>
+      Weather Forecast
+    </a>
+  </nav>
+</div>

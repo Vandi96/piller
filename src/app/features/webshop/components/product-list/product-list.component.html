@@ -1,16 +1,11 @@
 @let res = dataSource$ | async;
 <section class="p-4 mb-2">
   <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full max-w-2xl mx-auto">
-    <label for="search" class="sr-only">Search for products</label>
-    <input 
-      type="text"
-      id="search"
-      class="w-full sm:w-96 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-      [formControl]="searchControl"
-      placeholder="Search products..."
-      aria-label="Search for products"
-    />
-    <div class="flex gap-2">
+    <mat-form-field appearance="outline" class="w-full" subscriptSizing="dynamic">
+      <mat-label for="searchControl">Search products...</mat-label>
+      <input type="text" matInput [formControl]="searchControl" placeholder="Search products..." aria-label="Search for products" id="searchControl">
+    </mat-form-field>
+    <div class="flex gap-2 shrink-0">
       <button type="menu" mat-flat-button [matMenuTriggerFor]="sortMenu">Sort: {{ order().label }}</button>
       <mat-menu #sortMenu="matMenu">
         @for (data of sortData; track data.id) {
@@ -37,21 +32,34 @@
     </mat-menu>
   </div>
 </section>
-@if (res && res.products) {
-  <ul role="list" class="px-4" [ngClass]="{ 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': gridMode(), 'space-y-4': !gridMode() }">
-    @for (product of res.products; track product.id) {
-      <li role="listitem" class="h-full w-full" [ngClass]="{'border-gray-300 list-mode': !gridMode()}">
-        <app-product-card [product]="product" [gridMode]="gridMode()" />
-      </li>
+<section class="flex flex-col h-full">
+  @if (res && res.products) {
+    <ul role="list" class="px-4" 
+      [ngClass]="{ 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': gridMode(), 
+      'space-y-4 flex flex-col items-center': !gridMode() }"
+    >
+      @for (product of res.products; track product.id) {
+        <li role="listitem" class="w-full" [ngClass]="{'border-gray-300 list-mode max-w-6xl': !gridMode()}">
+          <app-product-card [product]="product" [gridMode]="gridMode()" />
+        </li>
+      }
+    </ul>
+    @if(res.products.length === 0) {
+      <div class="flex flex-1 flex-col items-center sm:justify-center">
+        <p class="text-lg font-semibold">No products available</p>
+        <p class="text-sm text-gray-400">Try adjusting your search.</p>
+      </div>
     }
-  </ul>
-  <mat-paginator
-    class="mt-2"
-    showFirstLastButtons
-    (page)="pagination($event)"
-    [length]="res.total"
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    aria-label="Select page">
-  </mat-paginator>
-}
+    <div class="flex flex-col justify-end" [ngClass]="{'h-full': res.products.length > 0}">
+      <mat-paginator
+        class="mt-2"
+        showFirstLastButtons
+        (page)="pagination($event)"
+        [length]="res.total"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page">
+      </mat-paginator>
+    </div>
+  }
+</section>

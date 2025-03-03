@@ -13,12 +13,27 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { PaginatorSource } from '../../interface/paginator-source.type';
 import { MatIcon } from '@angular/material/icon';
 import { ViewType, viewType } from '../../interface/view.type';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, ProductCardComponent, ReactiveFormsModule, MatMenuModule, MatButtonModule, MatPaginatorModule, MatIcon],
+  imports: [
+    CommonModule, 
+    ProductCardComponent, 
+    ReactiveFormsModule, 
+    MatMenuModule, 
+    MatButtonModule, 
+    MatPaginatorModule, 
+    MatIcon,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss'
+  styleUrl: './product-list.component.scss',
+  host: {
+    class: 'flex flex-col h-full',
+  }
 })
 export class ProductListComponent implements OnInit {
   private _api = inject(ProductApiService);

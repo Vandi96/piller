@@ -1,9 +1,9 @@
  @let data = product();
 
- <div class="w-full flex bg-white relative gap-4 overflow-hidden"
-    [ngClass]="{ 'flex-col shadow-lg border rounded-2xl h-full': gridMode(), 'flex-row': !gridMode() }">
+ <div class="w-full flex relative gap-4 overflow-hidden"
+    [ngClass]="{ 'flex-col shadow-lg border rounded-2xl h-full bg-white': gridMode(), 'flex-row bg-[#F8F9FA]': !gridMode() }">
  
-   <img class="bg-gray-100 object-cover"
+   <img class="bg-gray-100 object-contain"
       [ngClass]="{ 'w-full h-48': gridMode(), 'w-1/5 h-full rounded-2xl': !gridMode() }"
       [src]="data.thumbnail"
       alt="{{ data.title }}">

@@ -1,14 +1,17 @@
-<div class="h-full">
-  <header>
-    <ng-content select="[header]" />
-  </header>
-  <aside>
-    <ng-content select="[sidenav]" />
-  </aside>
-  <main class="h-full">
-    <ng-content select="[content]" />
-  </main>
-  <footer>
-    <ng-content select="[footer]" />
-  </footer>
-</div>
+<mat-drawer-container class="h-screen">
+  <mat-drawer #drawer mode="over" class="w-64 bg-gray-100" [opened]="isSidenavOpen()" (closedStart)="onSidenavClosed()">
+    <app-sidenav />
+  </mat-drawer>
+
+  <mat-drawer-content class="!flex flex-col h-screen">
+    <header>
+      <ng-content select="[header]" />
+    </header>
+    <main class="flex flex-1">
+      <ng-content select="[content]" />
+    </main>
+    <footer>
+      <ng-content select="[footer]" />
+    </footer>
+  </mat-drawer-content>
+</mat-drawer-container>

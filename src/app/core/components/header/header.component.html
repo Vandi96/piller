@@ -1,0 +1,21 @@
+<div class="flex py-4 px-6 bg-[#F8F9FA] items-center justify-between w-full border-b border-gray-300">
+  <div class="flex items-center gap-2">
+    <button type="button" mat-icon-button (click)="toggle()" aria-label="Sidenav toggle">
+      <mat-icon aria-hidden="false" fontIcon="menu" />
+    </button>
+    <a class="cursor-pointer" routerLink="/webshop" aria-label="Navigate to webshop page">
+      <img src="img/logo.svg" alt="logo" class="h-10" />
+    </a>
+  </div>
+ 
+  @if(isWebshop()) {
+    <a mat-icon-button routerLink="/webshop/checkout">
+      <mat-icon
+        aria-hidden="false"
+        [matBadge]="cartLength"
+        [matBadgeHidden]="cartIsEmpty()"
+        fontIcon="shopping_cart"
+      ></mat-icon>
+    </a>
+  }
+</div>

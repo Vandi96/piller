@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MainLayoutComponent } from '@core/layout/main-layout/main-layout.component';
-import { WebshopHeaderComponent } from 'src/app/features/webshop/components/webshop-header/webshop-header.component';
 import { FooterComponent } from "../../../../core/components/footer/footer.component";
+import { HeaderComponent } from '@core/components/header/header.component';
 
 @Component({
   selector: 'app-weather-page',
@@ -11,7 +11,7 @@ import { FooterComponent } from "../../../../core/components/footer/footer.compo
     CommonModule, 
     RouterOutlet, 
     MainLayoutComponent, 
-    WebshopHeaderComponent, 
+    HeaderComponent, 
     FooterComponent
   ],
   templateUrl: './weather-page.component.html',

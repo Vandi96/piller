@@ -63,7 +63,7 @@ export class CheckoutComponent implements OnInit {
       billingAddress: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^\\+?[0-9- ]{10,17}$')]],
-      deliveryMethod: ['delivery', [Validators.required]],
+      deliveryMethod: ['pickup', [Validators.required]],
       paymentMethod: ['card', [Validators.required]],
       cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
       expiryDate: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\\/([0-9]{2})$'), expiryDateValidator()]],

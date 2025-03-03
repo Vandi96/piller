@@ -8,7 +8,7 @@
 
 :root {
   @include mat.paginator-overrides((
-    container-background-color: white,
+    container-background-color: #F8F9FA,
   ));
 }
 
@@ -21,6 +21,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .mat-mdc-input-element {
   box-shadow: none !important;
+}
+
+//https://github.com/angular/components/issues/27337
+mat-form-field:has(input:-webkit-autofill) {
+  --mdc-filled-text-field-container-color: #e8f0fe;
+
+  input:-webkit-autofill {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--mdc-filled-text-field-input-text-color);
+  }
 }
 
 
