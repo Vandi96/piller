@@ -1,1 +1,203 @@
-<p>checkout works!</p>
+<div class="checkout-container max-w-4xl mx-auto p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold" id="review-order-heading">Review Order</h2>
+    <a mat-button routerLink="/webshop">
+      Continue Shopping
+    </a>
+  </div>
+
+  <section class="cart-summary bg-white shadow-md p-4 rounded-lg mb-4" aria-labelledby="cart-heading">
+    <h3 class="text-lg font-medium mb-2" id="cart-heading">Your Cart</h3>
+    <ul role="list">
+      @for(item of cartItems(); track item.product.id){
+        <li class="flex justify-between border-b py-2" role="listitem" attr.aria-labelledby="item-{{ item.product.id }}">
+          <div id="item-{{ item.product.id }}">
+            <strong>{{ item.product.title }}</strong>
+          </div>
+          <div class="flex items-center gap-2">
+            <button 
+              mat-icon-button 
+              color="primary" 
+              (click)="removeItem(item.product.id)"
+              attr.aria-label="Decrease quantity of {{ item.product.title }}"
+            >
+              <mat-icon fontIcon="remove" aria-hidden="true"/>
+            </button>
+            
+            <span class="font-semibold mt-1.5" aria-live="polite">{{ item.quantity }}</span>
+
+            <button 
+              mat-icon-button 
+              color="primary" 
+              (click)="addItem(item.product)"
+              attr.aria-label="Increase quantity of {{ item.product.title }}"
+            >
+              <mat-icon fontIcon="add" aria-hidden="true" />
+            </button>
+
+            <span class="text-red-600 font-semibold mt-1.5" aria-live="polite">
+              {{ item.product.price * item.quantity | currency }}
+            </span>
+
+            <button 
+              mat-icon-button 
+              color="warn" 
+              (click)="removeItem(item.product.id, true)"
+              attr.aria-label="Remove {{ item.product.title }} from cart"
+            >
+              <mat-icon fontIcon="delete" aria-hidden="true" />
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+    <p class="text-right font-semibold mt-2" aria-live="polite">Total: {{ totalPrice() | currency }}</p>
+  </section>
+  
+  <form 
+    [formGroup]="checkoutForm" 
+    (ngSubmit)="onSubmit()" 
+    class="bg-white shadow-md p-4 rounded-lg flex flex-col gap-3"
+    aria-labelledby="billing-info-heading">
+    
+    <h3 class="text-lg font-medium mb-2" id="billing-info-heading">Billing Information</h3>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label for="fullName">Full Name</mat-label>
+      <input type="text" matInput formControlName="fullName" id="fullName" required>
+      @if(checkoutForm.get('fullName')?.hasError('required')) {
+        <mat-error>Name is required.</mat-error>
+      } 
+      @if(checkoutForm.get('fullName')?.hasError('minlength')) {
+        <mat-error>Minimum 3 characters required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label for="billingAddress">Billing Address</mat-label>
+      <input type="text" matInput formControlName="billingAddress" id="billingAddress" required>
+      @if(checkoutForm.get('billingAddress')?.hasError('required')) {
+        <mat-error>Billing address is required.</mat-error>
+      } 
+      @if(checkoutForm.get('billingAddress')?.hasError('minlength')) {
+        <mat-error>Minimum 3 characters required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label for="email">Email</mat-label>
+      <input matInput formControlName="email" type="email" id="email" required>
+      @if(checkoutForm.get('email')?.hasError('required')) {
+        <mat-error>Email is required.</mat-error>
+      } 
+      @if(checkoutForm.get('email')?.hasError('email')) {
+        <mat-error>Invalid email format.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label for="phone">Phone</mat-label>
+      <input matInput formControlName="phone" type="tel" id="phone" required>
+      @if(checkoutForm.get('phone')?.hasError('required')) {
+        <mat-error>Phone number is required.</mat-error>
+      } 
+      @if(checkoutForm.get('phone')?.hasError('pattern')) {
+        <mat-error>Enter a valid phone number.</mat-error>
+      }
+    </mat-form-field>
+
+    <fieldset>
+      <legend class="font-medium">Delivery Method</legend>
+      <mat-radio-group formControlName="deliveryMethod" aria-labelledby="delivery-method-label">
+        <mat-radio-button value="pickup">Pickup from Store</mat-radio-button>
+        <mat-radio-button value="delivery">Home Delivery</mat-radio-button>
+      </mat-radio-group>
+    </fieldset>
+
+    <div class="flex">
+      <mat-checkbox formControlName="differentShipping" id="differentShipping">
+        Use a different shipping address
+      </mat-checkbox>
+    </div>
+
+    @if(checkoutForm.get('differentShipping')?.value) {
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label for="shippingAddress">Shipping Address</mat-label>
+        <input type="text" matInput formControlName="shippingAddress" id="shippingAddress">
+        @if(checkoutForm.get('shippingAddress')?.hasError('required')) {
+          <mat-error>Shipping address is required.</mat-error>
+        } 
+        @if(checkoutForm.get('shippingAddress')?.hasError('minlength')) {
+          <mat-error>Minimum 3 characters required.</mat-error>
+        }
+      </mat-form-field>
+    }
+    <section class="flex flex-col gap-3" aria-labelledby="payment-details-heading">
+      <h3 class="text-lg font-medium mt-2" id="payment-details-heading">Payment Details</h3>
+    
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label for="cardNumber">Card Number</mat-label>
+        <input type="text" matInput formControlName="cardNumber" id="cardNumber" placeholder="1234 5678 9012 3456" 
+               inputmode="numeric" pattern="[0-9\s]{16,19}" aria-describedby="cardNumberError">
+        
+        @if(checkoutForm.get('cardNumber')?.hasError('required')) {
+          <mat-error id="cardNumberError">Card number is required.</mat-error>
+        } 
+        @if(checkoutForm.get('cardNumber')?.hasError('pattern')) {
+          <mat-error>Enter a valid card number (16 digits).</mat-error>
+        }
+      </mat-form-field>
+    
+      <div class="flex gap-2">
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label for="expiryDate">Expiry Date (MM/YY)</mat-label>
+          <input type="text" matInput formControlName="expiryDate" id="expiryDate" placeholder="12/24" 
+                 inputmode="numeric" pattern="(0[1-9]|1[0-2])\/([0-9]{2})" aria-describedby="expiryDateError">
+          
+          @if(checkoutForm.get('expiryDate')?.hasError('required')) {
+            <mat-error id="expiryDateError">Expiry date is required.</mat-error>
+          } 
+          @if(checkoutForm.get('expiryDate')?.hasError('pattern')) {
+            <mat-error>Enter a valid expiry date (MM/YY).</mat-error>
+          }
+          @if(checkoutForm.get('expiryDate')?.hasError('expiredCard')) {
+            <mat-error>Your card has expired.</mat-error>
+          }
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label for="cvv">CVV</mat-label>
+          <input matInput formControlName="cvv" type="password" id="cvv" placeholder="123" 
+                 inputmode="numeric" pattern="[0-9]{3}" aria-describedby="cvvError">
+          
+          @if(checkoutForm.get('cvv')?.hasError('required')) {
+            <mat-error id="cvvError">CVV is required.</mat-error>
+          } 
+          @if(checkoutForm.get('cvv')?.hasError('pattern')) {
+            <mat-error>Enter a valid CVV (3 digits).</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    
+      <mat-checkbox formControlName="termsAccepted" id="termsAccepted">
+        I accept the Terms and Conditions
+      </mat-checkbox>
+    </section>
+    
+    <button 
+      mat-flat-button 
+      color="primary" 
+      class="w-full mt-4" 
+      type="submit" 
+      [disabled]="checkoutForm.invalid || isProcessing() || isCartEmpty()"
+      attr.aria-busy="{{ isProcessing() ? 'true' : 'false' }}"
+    >
+      @if (isProcessing()) {
+        <mat-progress-spinner diameter="24" mode="indeterminate" aria-hidden="true" />
+        <span class="sr-only">Processing payment...</span>
+      } @else {
+        <span>Confirm and Pay</span>
+      }
+    </button>
+  </form>
+</div>

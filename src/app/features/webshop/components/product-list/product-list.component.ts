@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProductApiService } from '../../../../core/services/product-api.service';
 import { combineLatest, debounceTime, distinctUntilChanged, filter, map, Observable, startWith, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Product, ProductResponse } from '../../../../core/interface/product.interface';
+import { ProductResponse } from '../../../../core/interface/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toObservable } from '@angular/core/rxjs-interop';
