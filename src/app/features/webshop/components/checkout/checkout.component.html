@@ -64,7 +64,7 @@
 
     <mat-form-field appearance="outline" class="w-full">
       <mat-label for="fullName">Full Name</mat-label>
-      <input type="text" matInput formControlName="fullName" id="fullName" required>
+      <input type="text" matInput formControlName="fullName" id="fullName">
       @if(checkoutForm.get('fullName')?.hasError('required')) {
         <mat-error>Name is required.</mat-error>
       } 
@@ -75,7 +75,7 @@
 
     <mat-form-field appearance="outline" class="w-full">
       <mat-label for="billingAddress">Billing Address</mat-label>
-      <input type="text" matInput formControlName="billingAddress" id="billingAddress" required>
+      <input type="text" matInput formControlName="billingAddress" id="billingAddress">
       @if(checkoutForm.get('billingAddress')?.hasError('required')) {
         <mat-error>Billing address is required.</mat-error>
       } 
@@ -86,7 +86,7 @@
 
     <mat-form-field appearance="outline" class="w-full">
       <mat-label for="email">Email</mat-label>
-      <input matInput formControlName="email" type="email" id="email" required>
+      <input matInput formControlName="email" type="email" id="email">
       @if(checkoutForm.get('email')?.hasError('required')) {
         <mat-error>Email is required.</mat-error>
       } 
@@ -97,7 +97,7 @@
 
     <mat-form-field appearance="outline" class="w-full">
       <mat-label for="phone">Phone</mat-label>
-      <input matInput formControlName="phone" type="tel" id="phone" required>
+      <input matInput formControlName="phone" type="tel" id="phone">
       @if(checkoutForm.get('phone')?.hasError('required')) {
         <mat-error>Phone number is required.</mat-error>
       } 

@@ -22,5 +22,15 @@ export const routes: Routes = [
       }
     ],
   },
+  {
+    path: 'weather-forecast',
+    loadComponent: () => import('./features/weather/pages/weather-page/weather-page.component').then(m => m.WeatherPageComponent),
+    children: [
+      { 
+        path: '', 
+        loadComponent: () => import('./features/weather/components/weather-list/weather-list.component').then(m => m.WeatherListComponent) 
+      },
+    ],
+  },
   { path: '**', redirectTo: 'webshop' }
 ];
