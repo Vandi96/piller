@@ -23,20 +23,21 @@ import { ViewType, viewType } from '../../interface/view.type';
 export class ProductListComponent implements OnInit {
   private _api = inject(ProductApiService);
   public dataSource$: Observable<ProductResponse> | undefined;
-  public viewMode = viewType;
-
-  public searchControl = new FormControl<string>('');
   public order = signal<ProductOrder>({ id: '0', label: 'Title Ascending', sortBy: 'title', order: 'asc' });
   public order$ = toObservable(this.order);
+  public paginatorSource = signal<PaginatorSource>({ limit: 10, skip: 0 });
+  public paginatorSource$ = toObservable(this.paginatorSource);
+  public gridMode = signal<boolean>(true);
+  
+  public searchControl = new FormControl<string>('');
+  public viewMode = viewType;
+
   public sortData: ProductOrder[] = [
     { id: '0', label: 'Title Ascending', sortBy: 'title', order: 'asc' },
     { id: '1', label: 'Title Descending', sortBy: 'title', order: 'desc' },
     { id: '2', label: 'Price lowest first', sortBy: 'price', order: 'asc' },
     { id: '3', label: 'Price highest first', sortBy: 'price', order: 'desc' }
   ];
-  public paginatorSource = signal<PaginatorSource>({ limit: 25, skip: 0 });
-  public paginatorSource$ = toObservable(this.paginatorSource);
-  public gridMode = signal<boolean>(true);
 
   public ngOnInit(): void {
     this.dataSource$ = combineLatest([

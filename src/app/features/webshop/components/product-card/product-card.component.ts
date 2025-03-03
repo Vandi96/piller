@@ -4,7 +4,6 @@ import { MatIcon } from '@angular/material/icon';
 import { Product } from '@core/interface/product.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { CartService } from '../../services/cart.service';
-import { I } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-product-card',

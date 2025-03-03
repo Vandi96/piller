@@ -1,28 +1,30 @@
 @let res = dataSource$ | async;
-<section class="p-4">
-  <div class="flex flex-col sm:flex-row items-center gap-2 w-full max-w-2xl mx-auto">
+<section class="p-4 mb-2">
+  <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full max-w-2xl mx-auto">
     <label for="search" class="sr-only">Search for products</label>
     <input 
       type="text"
       id="search"
-      class="w-full sm:w-80 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full sm:w-96 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
       [formControl]="searchControl"
       placeholder="Search products..."
       aria-label="Search for products"
     />
-    <button type="menu" mat-flat-button [matMenuTriggerFor]="sortMenu">Sort: {{ order().label }}</button>
-    <mat-menu #sortMenu="matMenu">
-      @for (data of sortData; track data.id) {
-        <button type="button" mat-menu-item (click)="sortList(data)">{{ data.label }}</button>
-      }
-    </mat-menu>
-    <button type="menu" mat-icon-button [matMenuTriggerFor]="viewMenu">
-      @if (gridMode()) {
-        <mat-icon aria-hidden="false" fontIcon="grid_view" />
-      } @else {
-        <mat-icon aria-hidden="false" fontIcon="format_list_bulleted" />
-      }
-    </button>
+    <div class="flex gap-2">
+      <button type="menu" mat-flat-button [matMenuTriggerFor]="sortMenu">Sort: {{ order().label }}</button>
+      <mat-menu #sortMenu="matMenu">
+        @for (data of sortData; track data.id) {
+          <button type="button" mat-menu-item (click)="sortList(data)">{{ data.label }}</button>
+        }
+      </mat-menu>
+      <button type="menu" mat-icon-button [matMenuTriggerFor]="viewMenu">
+        @if (gridMode()) {
+          <mat-icon aria-hidden="false" fontIcon="grid_view" />
+        } @else {
+          <mat-icon aria-hidden="false" fontIcon="format_list_bulleted" />
+        }
+      </button>
+    </div>
     <mat-menu #viewMenu="matMenu">
         <button type="button" mat-menu-item (click)="setView(viewMode.LIST)">
           <mat-icon aria-hidden="false" fontIcon="format_list_bulleted" />
@@ -36,17 +38,19 @@
   </div>
 </section>
 @if (res && res.products) {
-  <ul class="px-4" [ngClass]="{ 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': gridMode(), 'space-y-4': !gridMode() }">
+  <ul role="list" class="px-4" [ngClass]="{ 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': gridMode(), 'space-y-4': !gridMode() }">
     @for (product of res.products; track product.id) {
-      <li class="h-full w-full" [ngClass]="{'border-gray-300 list-mode': !gridMode()}">
+      <li role="listitem" class="h-full w-full" [ngClass]="{'border-gray-300 list-mode': !gridMode()}">
         <app-product-card [product]="product" [gridMode]="gridMode()" />
       </li>
     }
   </ul>
   <mat-paginator
+    class="mt-2"
+    showFirstLastButtons
     (page)="pagination($event)"
     [length]="res.total"
-    [pageSize]="25"
+    [pageSize]="10"
     [pageSizeOptions]="[5, 10, 25, 100]"
     aria-label="Select page">
   </mat-paginator>

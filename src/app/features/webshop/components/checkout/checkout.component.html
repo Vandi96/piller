@@ -9,7 +9,7 @@
   <section class="cart-summary bg-white shadow-md p-4 rounded-lg mb-4" aria-labelledby="cart-heading">
     <h3 class="text-lg font-medium mb-2" id="cart-heading">Your Cart</h3>
     <ul role="list">
-      @for(item of cartItems(); track item.product.id){
+      @for(item of cartItems(); track item.product.id) {
         <li class="flex justify-between border-b py-2" role="listitem" attr.aria-labelledby="item-{{ item.product.id }}">
           <div id="item-{{ item.product.id }}">
             <strong>{{ item.product.title }}</strong>
